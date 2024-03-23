@@ -1,9 +1,9 @@
 //TODO - Your ES6 JavaScript code (if any) goes here
-import "bootstrap"
+import 'bootstrap'
 
-import { movies } from "./movies"
+import { movies } from './movies'
 
-for (let n of movies) {
+for (let m of movies) {
     let m_thumb = document.getElementById('m' + m.id)
     m_thumb.innerHTML = `
         <img src="${m.poster}" alt="${m.title}" class="img-thumbnail"/>
@@ -34,3 +34,24 @@ function displayMovie(movie) {
         </div>
     `
 }
+
+function searchMovies(event) {
+    event.preventDefault()
+
+    let input = document.querySelector('[type="search"]').value || ""
+    let count = 0
+    for (let m of movies) {
+        if (m.title.toUpperCase().indexOf(input.toUpperCase()) == -1) {
+            document.querySelector(`#m${m.id}`).classList.add('d-none')
+        } else {
+            document.querySelector(`#m${m.id}`).classList.remove('d-none')
+            count++
+        }
+    }
+
+    featured_movie.innerHTML = count == 0 ? 'Nothing was found' : ''
+}
+
+document.querySelector("button").onclick = searchMovies
+document.querySelector('[type="search"]').onsearch = searchMovies
+document.querySelector("form").onsubmit = searchMovies
